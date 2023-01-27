@@ -24,5 +24,3 @@ for x = 1:M
         out(x,y) = ~(f(x,y)/255)*255;
     end
 end
-
-% out = uint8(out);

@@ -24,7 +24,11 @@ f_ = invert(f);
 
 se = strel('disk', 9);
 sel = se.getnhood();
-sel_ = invert(sel);
+
+se2 = strel('disk', 30);
+sel2 = se2.getnhood();
+sel_ = invert(sel2);
+sel_ = logical(sel_ / 255);
 
 h = erode(f, sel);
 m = erode(f_, sel_);
@@ -32,13 +36,12 @@ m = erode(f_, sel_);
 [M, N] = size(h);
 for x = 1:M
     for y = 1:N
-        if h(x,y)*m(x,y) == 0
+        if (h(x,y) == 0) && (m(x,y) == 0)
             out(x,y) = 0;
         else
             out(x,y) = 255;
         end
     end
 end
-
 out = uint8(out);
 
