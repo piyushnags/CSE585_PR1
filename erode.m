@@ -21,11 +21,11 @@
 % implemented. Just need to write a function to reflect the logical
 % array.
 
-function [out] = erode(f, shape, g)
+function [out] = erode(f, sel)
 
 [M, N] = size(f);
-se = strel(shape, g);
-sel = se.getnhood();
+% se = strel(shape, g);
+% sel = se.getnhood();
 
 % Set background value to WHITE (255)
 for x = 1:M
