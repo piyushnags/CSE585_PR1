@@ -1,16 +1,26 @@
 %--------------------------------------------------------------------------
 % Module: erode.m
-% Usage: MATLAB function to perform morphological erosion
-% Purpose: < FILL in Purpose >
+% Usage: erode(f, sel)
+% Purpose: Erode function to be used as part of a close filter
+%          and for performing the hit/miss transform
 %
 % Input Variables:
 %   f       input image array
+%   sel     structuring element (logical array)
 %
 % Returned Results:
 %   out     output image array
 %
 % Processing Flow:
-% < FILL IN PROCESSING FLOW >
+%   1. Initialize BG of output since all locations won't be operated on
+%   2. Determine valid bounds of the image when iterating using the
+%      structuring element.
+%   3. Perform logical AND with the filter iteratively at all valid 
+%      locations. Track valid pixel hits.
+%   4. For a given location, if the number of hits is same as the sum 
+%      of the structuring element, set corresponding output value to
+%      FG (0 in this case)
+%   5. Convert output to uint8
 %
 % Author: Piyush Nagasubramaniam, Siyuan Hong, Jacky Lin
 % Date: 01/25/2023
@@ -24,8 +34,6 @@
 function [out] = erode(f, sel)
 
 [M, N] = size(f);
-% se = strel(shape, g);
-% sel = se.getnhood();
 
 % Set background value to WHITE (255)
 for x = 1:M
@@ -49,6 +57,9 @@ for x = xlo:xhi
     for y = ylo:yhi
         s = 0;
         
+%       If input is FG at all relevant locations of structuring element 
+%       (based on where structuring element is a logical 1), increase temp
+%       counter s by 1.
         for i = -((P-1)/2):((P-1)/2)
             for j = -((Q-1)/2):((Q-1)/2)
                 if ~(f(x+i, y+j)/255)*sel(i+1+((P-1)/2), j+1+((P-1)/2))==1
@@ -57,6 +68,8 @@ for x = xlo:xhi
             end
         end
 
+%       If sum of structuring element is same as counter, then set output
+%       to FG, else set output to BG
         if s == sum(sel, 'all')
             out(x,y) = 0;
         else
