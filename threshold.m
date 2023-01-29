@@ -1,6 +1,6 @@
 %--------------------------------------------------------------------------
 % Module: threshold.m
-% Usage: MATLAB function to threshold an image
+% Usage: threshold(f, lambda)
 % Purpose: Function for preprocessing prior to morphologial operations.
 %          Converts a single channel grayscale image to a binary image.
 %

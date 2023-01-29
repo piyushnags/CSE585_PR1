@@ -12,9 +12,9 @@
 %   1. disks_clean.png      Noise-free version of input
 %   2. disks_hm.png         Result of applying hit/miss 
 %                           transform
-%   3. disks_middle         Reconstructed image containing 
+%   3. disks_middle.png     Reconstructed image containing 
 %                           middle-sized disks
-%   4. disks_sl             Final result containing only 
+%   4. disks_sl.png         Final result containing only 
 %                           smallest and largest disks
 %
 % Processing Flow:
@@ -43,7 +43,9 @@ clear;
 % Read image and make it grayscale binary
 im = imread('disks.jpg');
 im1 = rgb2gray(im);
-im1 = threshold(im1, 9);
+im1 = threshold(im1, 15);
+imtool(im1);
+imwrite(im1, 'output/disks_threshold.png', 'png');
 
 % Perform the close operation to eliminate 
 % salt and pepper noise
